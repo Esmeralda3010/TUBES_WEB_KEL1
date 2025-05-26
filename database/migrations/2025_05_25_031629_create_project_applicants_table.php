@@ -20,7 +20,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('freelancer_id')->references('id')->on('users')->onDelete('cascades');
+            $table->foreign('freelancer_id', 'project_applicants_freelancer_id_foreign')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -32,3 +32,4 @@ return new class extends Migration
         Schema::dropIfExists('project_applicants');
     }
 };
+

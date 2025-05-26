@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -65,8 +67,9 @@ class RolePermissionSeeder extends Seeder
             'occupation' => 'Owner',
             'connect' => 99999,
             'avatar' => 'images/default-avatar.png',
-            'password' => bcrypt('123123123')
+            'password' => bcrypt('123123123'),
         ]);
+
         $user->assignRole($superAdminRole);
 
         $wallet = new Wallet([
