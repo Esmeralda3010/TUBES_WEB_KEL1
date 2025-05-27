@@ -45,14 +45,31 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
         //
+        DB::transaction(function () use ($request, $category) {
+    $validated = $request->validated();
+
+    if ($request->hasFile('icon')) {
+        $iconPath = $request->file('icon')->store('icons', 'public');
+        $validated['icon'] = $iconPath;
+    }
+
+    $validated['slug'] = Str::slug($validated['name']);
+    // web development => web-development
+    // 1 => 1
+
+    $Category->update($validated);
+});
+
+return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -61,5 +78,18 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        dd($category);
+
+        DB::beginTransaction();
+
+        try {
+            $category->delete();
+            DB::commit();
+            return redirect()->route('admin.categories.index');
+        }
+        catch (\Exception $e){
+            DB::rollBack();
+            return redirect()->route('admin.categories.index');
+        }
     }
 }
