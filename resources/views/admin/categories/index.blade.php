@@ -18,17 +18,17 @@
                     
                 <div class="item-card flex flex-row justify-between items-center">
                     <div class="flex flex-row items-center gap-x-3">
-                        <img src="{{ storage::url($category->icon)}}" alt="" class="rounded-2xl object-cover w-[90px] h-[90px]">
+                        <img src="{{Storage::url($category->icon)}}" alt="" class="rounded-2xl object-cover w-[90px] h-[90px]">
                         <div class="flex flex-col">
-                            <h3 class="text-indigo-950 text-xl font-bold">{{ $categori->name }}</h3>
+                            <h3 class="text-indigo-950 text-xl font-bold">{{ $category->name }}</h3>
                         </div>
                     </div> 
                     <div  class="hidden md:flex flex-col">
                         <p class="text-slate-500 text-sm">Date</p>
-                        <h3 class="text-indigo-950 text-xl font-bold">{{ $categori->create_at->format('M d, Y')}}</h3>
+                        <h3 class="text-indigo-950 text-xl font-bold">{{ $category->created_at->format('M, d, Y')}}</h3>
                     </div>
                     <div class="hidden md:flex flex-row items-center gap-x-3">
-                <a href="{{route('admin.categories.edit',$category)}}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+                        <a href="{{route('admin.categories.edit',$category)}}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                             Edit
                         </a>
                         <form action="{{route('admin.categories.destroy', $category)}}" method="POST">

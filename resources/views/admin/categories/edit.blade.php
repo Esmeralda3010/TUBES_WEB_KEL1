@@ -17,7 +17,7 @@
                     @endforeach
                 @endif
                 
-                <form method="POST" action="{{route('admin.categories.update', $category" enctype="multipart/form-data">
+                <form method="POST" action="{{route('admin.categories.update', $category)}}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -29,7 +29,7 @@
 
                     <div class="mt-4">
                         <x-input-label for="icon" :value="__('icon')" />
-                         <img src="#" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
+                        <img src="{{Storage::url($category->icon)}}" alt="" class="rounded-2xl object-cover w-[90px] h-[90px]">
                         <x-text-input id="icon" class="block mt-1 w-full" type="file" name="icon"  autofocus autocomplete="icon" />
                         <x-input-error :messages="$errors->get('icon')" class="mt-2" />
                     </div>

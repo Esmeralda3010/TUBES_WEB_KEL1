@@ -7,6 +7,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Http\Requests\UpdateCategoryRequest;
+
 
 class CategoryController extends Controller
 {
@@ -39,7 +41,7 @@ class CategoryController extends Controller
             $validated = $request->validated();
 
             if($request->hasFile('icon')){
-                $iconPath = $request->file('icon')->store('icon', 'public');
+                $iconPath = $request->file('icon')->store('icons', 'public');
                 $validated['icon']=$iconPath;
             }
 
@@ -73,8 +75,8 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         //
-        DB::transaction(function () use ($request, $category) {
-    $validated = $request->validated();
+        DB::transaction(function() use ($request, $category) {
+        $validated = $request->validated();
 
     if ($request->hasFile('icon')) {
         $iconPath = $request->file('icon')->store('icons', 'public');
@@ -85,7 +87,7 @@ class CategoryController extends Controller
     // web development => web-development
     // 1 => 1
 
-    $Category->update($validated);
+    $category->update($validated);
 });
 
 return redirect()->route('admin.categories.index');
@@ -96,9 +98,6 @@ return redirect()->route('admin.categories.index');
      */
     public function destroy(Category $category)
     {
-        //
-        dd($category);
-
         DB::beginTransaction();
 
         try {

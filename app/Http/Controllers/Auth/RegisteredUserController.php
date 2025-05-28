@@ -34,14 +34,12 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'avatar' => ['required', 'image', 'mimes:png,jpg,jpeg,webp'],
             'occupation' => ['required', 'string', 'max:255'],
-            'role' => ['requierd', 'string', 'max:255', 'in:project_freelancer,project_client'],
+            'role' => ['required', 'string', 'max:255', 'in:project_freelancer,project_client'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        if($request->hasFile('avatar')){
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        }
+        $avatarPath = $request->file('avatar')->store('avatars', 'public');
 
         $user = User::create([
             'name' => $request->name,
