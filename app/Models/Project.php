@@ -9,6 +9,19 @@ class Project extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'thumbnail',
+        'about',
+        'category_id',
+        'client_id',
+        'budget',
+        'skill_level',
+        'has_finished',
+        'has_started',
+    ];
+
     public function category(){
         return $this->belongsTo(Category::class);
     }

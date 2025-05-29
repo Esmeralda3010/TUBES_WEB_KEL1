@@ -13,7 +13,7 @@ use App\Http\Controllers\WalletTransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('auth.register');
+    return view('welcome');
 });
 
 Route::get('/dashboard', function () {
@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/proposals', [DashboardController::class, 'proposals'])
         ->name('dashboard.proposals');
 
-        Route::get('/dashboard/proposals_detail/{project}/{projectApplicant}', [DashboardController::class, 'proposals_details'])
+        Route::get('/dashboard/proposal_details/{project}/{projectApplicant}', [DashboardController::class, 'proposals_details'])
         ->name('dashboard.proposals.details');
     });
 
@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/wallet/withdrawals', [WalletTransactionController::class, 'wallet_withdrawals'])
                 ->name('withdrawals');
 
-            Route::resource('wallet_transaction', WalletTransactionController::class);
+            Route::resource('wallet_transactions', WalletTransactionController::class);
         });
 
         Route::middleware('can:manage applicants')->group(function () {
@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::middleware('can:manage projects')->group(function () {
-            Route::resource('projects', ProjectApplicantController::class);
+            Route::resource('projects', ProjectController::class);
 
             Route::post('/project/{projectApplicant}/completed', [ProjectController::class, 'complete_project_store'])
                 ->name('complete_project.store');
@@ -86,7 +86,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/project/{project}/tools', [ProjectController::class, 'tools'])
                 ->name('projects.tools');
 
-            Route::post('/project/{project}/tools/store', [ProjectController::class, 'tools.store'])
+            Route::post('/project/{project}/tools/store', [ProjectController::class, 'tools_store'])
                 ->name('projects.tools.store');
 
             Route::resource('project_tools', ProjectToolController::class);

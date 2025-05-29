@@ -34,7 +34,7 @@
                         </x-nav-link>
                     @endrole
 
-                    @role('super_admin|project_freelancer')
+                    @role('super_admin|project_client')
                     <x-nav-link :href="route('admin.projects.index')" :active="request()->routeIs('admin.projects.index')">
                         {{ __('Project Listings') }}
                         </x-nav-link>

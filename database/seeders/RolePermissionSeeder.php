@@ -26,7 +26,7 @@ class RolePermissionSeeder extends Seeder
 
             //other singular action
             'apply job',
-            'top wallet',
+            'topup wallet',
             'withdraw wallet',
         ];
 
@@ -43,7 +43,7 @@ class RolePermissionSeeder extends Seeder
             'manage projects',
             'manage project tools',
             'manage applicants',
-            'top wallet',
+            'topup wallet',
             'withdraw wallet',
         ];
         $clientRole->syncPermissions($clientPermissions);
