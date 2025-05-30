@@ -102,6 +102,7 @@ class ProjectController extends Controller
         }
 
         $tools = Tool::all();
+        
         return view('admin.projects.tools', compact('project', 'tools'));
     }
 
@@ -110,9 +111,11 @@ class ProjectController extends Controller
         DB::transaction(function() use ($request, $project){
 
             $validated = $request->validated();
-            $validated['project_id'] = $project->id;
-
-            $toolProject = ProjectTool::firstOrCreate($validated);
+           
+            ProjectTool::firstOrCreate([
+                'project_id' => $project->id,
+                'tool_id' => $validated['tool_id'],
+            ]);
         });
 
         return redirect()->route('admin.projects.tools', $project->id);
