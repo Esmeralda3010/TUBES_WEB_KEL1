@@ -1,34 +1,9 @@
 @extends('front.layouts.app')
 @section('content')
 <body class="font-poppins text-[#030303] bg-[#F6F5FA] pb-[100px] px-4 sm:px-0">
-  <nav class="container max-w-[1130px] mx-auto flex items-center flex-wrap justify-between p-4 rounded-[20px] bg-white mt-[30px] gap-y-3 sm:gap-y-0">
-    <a href="index.html">
-        <img src="assets/logos/logo.svg" alt="logo">
-    </a>
-    <ul class="flex items-center flex-wrap gap-x-[30px]">
-        <li>
-            <a href="index.html" class="hover:font-semibold hover:text-[#6635F1] transition-all duration-300 font-semibold text-[#6635F1]">Browse</a>
-        </li>
-        <li>
-            <a href="category-auth.html" class="hover:font-semibold hover:text-[#6635F1] transition-all duration-300">Categories</a>
-        </li>
-        <li>
-            <a href="" class="hover:font-semibold hover:text-[#6635F1] transition-all duration-300">My Jobs</a>
-        </li>
-        <li>
-            <a href="" class="hover:font-semibold hover:text-[#6635F1] transition-all duration-300">Wallets</a>
-        </li>
-        <li>
-            <a href="" class="hover:font-semibold hover:text-[#6635F1] transition-all duration-300">Help</a>
-        </li>
-    </ul>
-    <div class="flex items-center gap-3">
-        <p class="font-semibold">Hi, Shayna</p>
-        <div class="w-[50px] h-[50px] rounded-full overflow-hidden flex shrink-0">
-            <img src="assets/photos/profile.png" class="w-full h-full object-cover" alt="photo">
-        </div>
-    </div>
-  </nav>
+  
+<x-nav/>
+
   <section id="header" class="container max-w-[1130px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 mt-[50px]">
     <h1 class="font-extrabold text-[40px] leading-[45px] text-center sm:text-left">Browse Your <br>Favorites Projects</h1>
     <div class="flex flex-col sm:flex-row justify-end items-center gap-3 w-full sm:w-auto">
@@ -47,14 +22,14 @@
     <div class="grid grid-cols-1 sm:grid-cols-5 gap-5">
 
         @forelse($categories as $category)
-        <a href="category-auth.html" class="card">
+        <a href="{{route('front.category', $category->slug)}}" class="card">
             <div class="p-5 rounded-[20px] bg-white flex flex-col gap-[30px] hover:ring-2 hover:ring-[#6635F1] transition-all duration-300">
                 <div class="w-[70px] h-[70px] flex shrink-0">
                     <img src="{{Storage::url($category->icon)}}" alt="icon">
                 </div>
                 <div class="flex flex-col gap-[6px]">
                     <p href="" class="font-semibold text-lg">{{$category->name}}</p>
-                    <p class="text-sm text-[#545768]">12,409 jobs available</p>
+                    <p class="text-sm text-[#545768]">{{$category->projects->count()}} jobs available</p>
                 </div>
             </div>
         </a>
@@ -70,7 +45,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-4 gap-5">
 
         @forelse($projects as $project)
-        <a href="details.html" class="card">
+        <a href="{{route('front.details', $project)}}" class="card">
             <div class="p-5 rounded-[20px] bg-white flex flex-col gap-5 hover:ring-2 hover:ring-[#6635F1] transition-all duration-300">
                 <div class="w-full h-[140px] rounded-[20px] overflow-hidden relative">
 
@@ -123,7 +98,7 @@
 
             @forelse($projects as $project)
             <div class="card hover:ring-2 hover:ring-[#6635F1] transition-all duration-300 bg-white p-5 rounded-[20px] flex flex-col sm:flex-row sm:items-center gap-[18px] w-full">
-                <a href="details.html" class="w-full sm:w-[200px] h-[150px] flex shrink-0 rounded-[20px] overflow-hidden bg-[#D9D9D9]">
+                <a href="{{route('front.details', $project)}}" class="w-full sm:w-[200px] h-[150px] flex shrink-0 rounded-[20px] overflow-hidden bg-[#D9D9D9]">
                     <img src="{{Storage::url($project->thumbnail)}}" class="w-full h-full object-cover" alt="thumbnail">
                 </a>
                 <div class="flex flex-col gap-[10px]">
@@ -140,7 +115,7 @@
 
 
 
-                    <a href="details.html" class="font-semibold text-lg leading-[27px]">{{$project->name}}</a>
+                    <a href="{{route('front.details', $project)}}" class="font-semibold text-lg leading-[27px]">{{$project->name}}</a>
                     <p class="text-sm leading-7 line-clamp-2">{{$project->about}}</p>
                     <div class="flex flex-col sm:flex-row sm:items-center gap-3">
                         <div class="flex items-center gap-[6px]">
@@ -173,14 +148,15 @@
         </div>
     </div>
     <div class="flex flex-col sm:w-[300px] h-fit shrink-0 bg-white rounded-[20px] p-5 gap-[30px] sm:mt-[45px]">
+        @auth
         <div class="flex flex-col gap-3">
             <h3 class="font-semibold">Your Profile</h3>
             <div class="flex items-center gap-3">
                 <div class="w-[50px] h-[50px] rounded-full overflow-hidden flex shrink-0">
-                    <img src="assets/photos/profile.png" class="w-full h-full object-cover" alt="photo">
+                    <img src="{{Storage::url(Auth::user()->avatar)}}" class="w-full h-full object-cover" alt="photo">
                 </div>
                 <div class="flex flex-col gap-[2px]">
-                    <p class="font-semibold">Hi, Shayna</p>
+                    <p class="font-semibold">Hi, {{Auth::user()->name}}</p>
                     <p class="text-sm leading-[21px] text-[#545768]">911 Finished Projects</p>
                 </div>
             </div>
@@ -205,16 +181,18 @@
                 </div>
             </div>
         </div>
+        
         <div class="flex flex-col gap-[10px] rounded-[20px] p-[10px_14px] bg-[#030303]">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 flex shrink-0">
                     <img src="assets/icons/story.svg" alt="">
                 </div>
-                <p class="text-sm text-white">You have <span class="font-bold">183</span> connects available to get a new job</p>
+                <p class="text-sm text-white">You have <span class="font-bold">{{Auth::user()->connect}}</span> connects available to get a new job</p>
             </div>
             <a href="" class="font-semibold text-white text-sm hover:underline text-center">Top Up Connect</a>
         </div>
         <hr>
+        @endauth
         <div class="flex flex-col gap-3">
             <h3 class="font-semibold">Resources</h3>
             <div class="flex flex-col gap-[18px]">

@@ -81,13 +81,6 @@
                         
                 </div>
                 @elseif($projectApplicant->status == 'Waiting')
-                {{-- <form method="POST" action="{{route('admin.reply_applicant.update', $projectApplicant->id)}}" enctype="multipart/form-data">
-                    @csrf
-
-                    <button type="submit" class="mt-2 w-full font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                        Approve & Hire Now
-                    </button>
-                </form> --}}
                 <form method="POST" action="{{route('admin.project_applicants.update', $projectApplicant->id)}}" enctype="multipart/form-data">
                     @csrf
 @method('PUT')
