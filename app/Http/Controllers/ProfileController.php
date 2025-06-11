@@ -21,6 +21,16 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function apiProfile(Request $request)
+{
+    return response()->json([
+        'id' => $request->user()->id,
+        'name' => $request->user()->name,
+        'email' => $request->user()->email,
+    ]);
+}
+
+
     /**
      * Update the user's profile information.
      */
